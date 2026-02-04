@@ -2,11 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Единственный шрифт для всего сайта, без засечек */
+* {
+  font-family: 'Inter', sans-serif !important;
+}
+
 @layer base {
   body {
-    @apply font-sans antialiased;
+    @apply antialiased;
     background-color: #fdfaf5;
     color: #2c2c2c;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
   }
+
+  h1, h2, h3 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600;
+    color: #2c2c2c;
+  }
+
+  h1 { font-weight: 700; }
 }
 
