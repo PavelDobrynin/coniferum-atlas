@@ -1,9 +1,10 @@
 {
   "name": "coniferum-atlas",
-  "compatibility_date": "2026-02-04",
-  "assets": { 
+  "compatibility_date": "2024-11-01",
+  "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "not_found_handling": "single-page-application" 
+    "not_found_handling": "single-page-application",
+    "html_handling": "none"
   }
 }
