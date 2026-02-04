@@ -2,16 +2,16 @@ import TreeCard from './components/TreeCard.tsx';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div className="min-h-screen" style={{ backgroundColor: '#fdfaf5' }}>
       <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
         <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
             Coniferum
           </p>
-          <h1 className="text-2xl font-semibold text-slate-50 sm:text-3xl">
+          <h1 className="text-2xl font-semibold sm:text-3xl" style={{ color: '#2c2c2c' }}>
             Атлас хвойных
           </h1>
-          <p className="max-w-2xl text-sm text-slate-300">
+          <p className="max-w-2xl text-sm" style={{ color: '#2c2c2c' }}>
             Базовая заготовка проекта на React + TypeScript + Tailwind CSS с компонентом
             карточки дерева. Дальше сюда можно подключать данные из вашей схемы из
             `schema.ts`.

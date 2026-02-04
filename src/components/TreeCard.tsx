@@ -26,12 +26,12 @@ export const TreeCard: FC<TreeCardProps> = ({
   nativeRange
 }) => {
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 shadow-lg shadow-black/40 backdrop-blur">
+    <article className="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-lg shadow-gray-200/50">
       {/* Header */}
       <header className="bg-[#2d5a27] px-5 py-3 text-sm font-medium uppercase tracking-[0.16em] text-emerald-50">
         <div className="flex items-center justify-between gap-3">
           <span className="truncate">{russianName || 'Неизвестный вид'}</span>
-          <span className="rounded-full bg-black/20 px-2 py-0.5 text-[10px] font-semibold tracking-[0.18em]">
+          <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold tracking-[0.18em]">
             CONIFERUM
           </span>
         </div>
@@ -40,7 +40,7 @@ export const TreeCard: FC<TreeCardProps> = ({
       {/* Body */}
       <div className="flex flex-col gap-4 p-5 sm:flex-row sm:gap-6">
         {imageUrl && (
-          <div className="shrink-0 overflow-hidden rounded-xl border border-slate-800/80 bg-slate-950/40">
+          <div className="shrink-0 overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
             <img
               src={imageUrl}
               alt={latinName}
@@ -51,32 +51,32 @@ export const TreeCard: FC<TreeCardProps> = ({
 
         <div className="flex-1 space-y-3">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-emerald-400">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-emerald-600">
               {family || 'Семейство не указано'}
             </p>
-            <h2 className="mt-1 text-lg font-semibold text-slate-50">
+            <h2 className="mt-1 text-lg font-semibold" style={{ color: '#2c2c2c' }}>
               <span className="italic">{latinName}</span>
               {genus && !latinName.toLowerCase().startsWith(genus.toLowerCase()) && (
-                <span className="text-slate-400"> • {genus}</span>
+                <span style={{ color: '#666' }}> • {genus}</span>
               )}
             </h2>
           </div>
 
           {shortDescription && (
-            <p className="text-sm leading-relaxed text-slate-300">{shortDescription}</p>
+            <p className="text-sm leading-relaxed" style={{ color: '#2c2c2c' }}>{shortDescription}</p>
           )}
 
-          <dl className="grid gap-x-6 gap-y-2 text-xs text-slate-300 sm:grid-cols-2">
+          <dl className="grid gap-x-6 gap-y-2 text-xs sm:grid-cols-2" style={{ color: '#2c2c2c' }}>
             {nativeRange && (
               <div>
-                <dt className="font-medium text-slate-200">Естественный ареал</dt>
-                <dd className="mt-0.5 text-slate-300">{nativeRange}</dd>
+                <dt className="font-medium" style={{ color: '#2c2c2c' }}>Естественный ареал</dt>
+                <dd className="mt-0.5" style={{ color: '#555' }}>{nativeRange}</dd>
               </div>
             )}
             {russianName && (
               <div>
-                <dt className="font-medium text-slate-200">Русское название</dt>
-                <dd className="mt-0.5 text-slate-300">{russianName}</dd>
+                <dt className="font-medium" style={{ color: '#2c2c2c' }}>Русское название</dt>
+                <dd className="mt-0.5" style={{ color: '#555' }}>{russianName}</dd>
               </div>
             )}
           </dl>
