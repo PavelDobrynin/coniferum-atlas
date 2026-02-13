@@ -348,12 +348,12 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
             aria-hidden
           />
           <aside
-            className="fixed right-0 top-0 bottom-0 z-50 w-64 shrink-0 border-l border-gray-300/60 py-6 pl-4 pr-4 xl:hidden animate-slide-in-right"
+            className="fixed right-0 top-0 bottom-0 z-50 flex w-64 shrink-0 flex-col border-l border-gray-300/60 py-6 pl-4 pr-4 xl:hidden animate-slide-in-right"
             style={{ backgroundColor: PAGE_BG }}
             role="dialog"
             aria-label="Оглавление страницы"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex shrink-0 items-center justify-between">
               <div
                 className="text-xs font-semibold uppercase tracking-wider"
                 style={{ color: SECTION_HEADING_COLOR }}
@@ -369,33 +369,38 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
                 <IconClose className="h-5 w-5" style={{ color: TEXT_COLOR }} />
               </button>
             </div>
-            <ul className="space-y-1 text-sm">
-              {visibleSections.map((section) => (
-                <li key={section.id}>
-                  <a
-                    href={`#section-${section.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sectionRefs.current[section.id]?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                      });
-                      closeToc();
-                    }}
-                    className={`block rounded-md px-2 py-1.5 transition-colors ${
-                      activeSectionId === section.id ? 'font-semibold' : ''
-                    }`}
-                    style={{
-                      color:
-                        activeSectionId === section.id ? SECTION_HEADING_COLOR : TEXT_COLOR,
-                      backgroundColor: activeSectionId === section.id ? 'rgba(45,90,39,0.08)' : 'transparent'
-                    }}
-                  >
-                    {section.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div
+              className="min-h-0 overflow-y-auto pb-10"
+              style={{ maxHeight: 'calc(100vh - 80px)' }}
+            >
+              <ul className="space-y-1 text-sm">
+                {visibleSections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#section-${section.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        sectionRefs.current[section.id]?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start'
+                        });
+                        closeToc();
+                      }}
+                      className={`block rounded-md px-2 py-1.5 transition-colors ${
+                        activeSectionId === section.id ? 'font-semibold' : ''
+                      }`}
+                      style={{
+                        color:
+                          activeSectionId === section.id ? SECTION_HEADING_COLOR : TEXT_COLOR,
+                        backgroundColor: activeSectionId === section.id ? 'rgba(45,90,39,0.08)' : 'transparent'
+                      }}
+                    >
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </aside>
         </>
       )}
