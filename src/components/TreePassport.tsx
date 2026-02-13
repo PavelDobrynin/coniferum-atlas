@@ -34,6 +34,25 @@ function IconClose({ className }: { className?: string }) {
   );
 }
 
+/** Серый треугольник для аккордеона: поворот на 180° при открытии */
+function IconChevronDown({ className, open }: { className?: string; open?: boolean }) {
+  return (
+    <svg
+      className={`shrink-0 text-gray-500 transition-transform duration-200 ${className ?? ''}`}
+      style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  );
+}
+
 function getVisibleSections(data: PassportData): PassportSection[] {
   return PASSPORT_SECTIONS.filter((section) =>
     section.itemIds.some((id) => (data[id] ?? '').trim() !== '')
@@ -56,10 +75,7 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
   const [activeSectionId, setActiveSectionId] = useState<string | null>(
     visibleSections[0]?.id ?? null
   );
-  const [accordionOpen, setAccordionOpen] = useState<Record<string, boolean>>({
-    '4': false,
-    '8': false
-  });
+  const [accordionOpen, setAccordionOpen] = useState<Record<string, boolean>>({});
   const [leftMenuOpen, setLeftMenuOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
   const [isTitleStuck, setIsTitleStuck] = useState(false);
@@ -263,8 +279,7 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
             const filledIds = getFilledItemIds(section, data);
             if (filledIds.length === 0) return null;
 
-            const isAccordion = section.accordion === true;
-            const isOpen = accordionOpen[section.id] ?? false;
+            const isOpen = accordionOpen[section.id] ?? section.id === visibleSections[0]?.id;
 
             const content = (
               <div className="space-y-4">
@@ -296,8 +311,7 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
                 className="scroll-mt-24 text-lg font-semibold"
                 style={{
                   color: SECTION_HEADING_COLOR,
-                  fontFamily: "'Inter', sans-serif",
-                  marginBottom: '0.75rem'
+                  fontFamily: "'Inter', sans-serif"
                 }}
               >
                 {section.title}
@@ -310,30 +324,23 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
                 id={`section-${section.id}`}
                 className="mb-10 border-b border-gray-300/50 pb-10 last:border-0"
               >
-                {isAccordion ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => toggleAccordion(section.id)}
-                      className="flex w-full items-center justify-between gap-2 text-left"
-                      aria-expanded={isOpen}
-                    >
-                      {heading}
-                      <span
-                        className="shrink-0 text-gray-500 transition-transform"
-                        style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                      >
-                        ▼
-                      </span>
-                    </button>
-                    {isOpen && <div className="mt-2">{content}</div>}
-                  </>
-                ) : (
-                  <>
-                    {heading}
-                    {content}
-                  </>
-                )}
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion(section.id)}
+                  className="flex w-full items-center justify-between gap-3 py-1 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className="min-w-0 flex-1">{heading}</span>
+                  <IconChevronDown open={isOpen} className="h-5 w-5" />
+                </button>
+                <div
+                  className="grid transition-[grid-template-rows] duration-200 ease-out"
+                  style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <div className="mt-2 pt-1">{content}</div>
+                  </div>
+                </div>
               </section>
             );
           })}
