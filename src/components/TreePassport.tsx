@@ -62,6 +62,25 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
   });
   const [leftMenuOpen, setLeftMenuOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
+  const [isTitleStuck, setIsTitleStuck] = useState(false);
+  const titleSentinelRef = useRef<HTMLDivElement | null>(null);
+
+  // Определение «прилипшего» заголовка для фона, тени и уменьшения шрифта на мобильных
+  useEffect(() => {
+    const sentinel = titleSentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          // Заголовок считаем прилипшим, когда sentinel уехал вверх за край экрана
+          setIsTitleStuck(entry.boundingClientRect.top < 0);
+        }
+      },
+      { threshold: 0, rootMargin: '-1px 0px 0px 0px' }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
 
   // Блокировка прокрутки страницы при открытых мобильных меню
   useEffect(() => {
@@ -209,12 +228,35 @@ export const TreePassport: FC<TreePassportProps> = ({ data, title }) => {
       <main className="min-w-0 flex-1 px-4 pt-14 pb-8 sm:px-6 md:px-8 lg:pt-8">
         <div className="mx-auto max-w-3xl">
           {title && (
-            <h1
-              className="mb-8 text-2xl font-bold md:text-3xl"
-              style={{ color: TEXT_COLOR, fontFamily: "'Inter', sans-serif" }}
-            >
-              {title}
-            </h1>
+            <>
+              <div ref={titleSentinelRef} className="h-px w-full" aria-hidden />
+              <div
+                className={`sticky top-14 z-10 -mt-px mb-8 py-4 transition-[box-shadow,background-color] duration-200 lg:top-0 lg:py-6 ${
+                  isTitleStuck
+                    ? 'rounded-b-md shadow-sm lg:py-4'
+                    : ''
+                }`}
+                style={
+                  isTitleStuck
+                    ? {
+                        backgroundColor: 'rgba(253, 250, 245, 0.95)',
+                        backdropFilter: 'saturate(180%) blur(8px)'
+                      }
+                    : undefined
+                }
+              >
+                <h1
+                  className={`font-bold transition-[font-size] duration-200 ${
+                    isTitleStuck
+                      ? 'text-lg md:text-2xl lg:text-3xl'
+                      : 'text-2xl md:text-3xl'
+                  }`}
+                  style={{ color: TEXT_COLOR, fontFamily: "'Inter', sans-serif" }}
+                >
+                  {title}
+                </h1>
+              </div>
+            </>
           )}
 
           {visibleSections.map((section) => {
